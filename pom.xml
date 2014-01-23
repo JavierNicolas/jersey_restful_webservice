@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>au.com.playground</groupId>
+    <artifactId>jersey_restful_webservice</artifactId>
+    <packaging>war</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>jersey_restful_webservice Jersey Webapp</name>
+    
+    <properties>
+       <jersey.version>1.8</jersey.version>
+       <junit.version>4.8.2</junit.version>
+   	</properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <finalName>jrws</finalName>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>m2.java.net</id>
+            <name>Java.net Maven 2 Repository</name>
+            <url>http://download.java.net/maven/2</url>
+            <layout>default</layout>
+        </repository>        
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>m2.java.net</id>
+            <name>Java.net Maven 2 Repository</name>
+            <url>http://download.java.net/maven/2</url>
+            <layout>default</layout>
+        </pluginRepository>  
+    </pluginRepositories>
+    
+    <developers>
+		<developer>
+			<name>Robert Leggett</name>
+			<roles>
+				<role>Solution Architect</role>
+			</roles>
+		</developer>
+	</developers>
+</project>
