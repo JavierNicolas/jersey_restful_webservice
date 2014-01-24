@@ -35,6 +35,18 @@
             <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-http</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>
