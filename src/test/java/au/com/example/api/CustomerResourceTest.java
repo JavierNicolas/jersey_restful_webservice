@@ -24,7 +24,7 @@ import au.com.example.api.data.Customer;
 import au.com.example.entity.CustomerEntity;
 import au.com.example.service.CustomerService;
 
-public class CustomerTest extends JerseyTest {
+public class CustomerResourceTest extends JerseyTest {
 
 	@Mock
 	private CustomerService serviceMock;
