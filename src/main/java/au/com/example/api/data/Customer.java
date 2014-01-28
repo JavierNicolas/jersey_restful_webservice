@@ -1,16 +1,14 @@
-package au.com.example.service.customer.data;
+package au.com.example.api.data;
 
-public class CustomerEntity {
+import java.io.Serializable;
 
+public class Customer implements Serializable {
+
+	private static final long serialVersionUID = -5183069099661541090L;
+	
 	private Long id;
 	private String firstName;
 	private String lastName;
-	
-	public CustomerEntity(Long id, String firstName, String lastName) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
 
 	public Long getId() {
 		return id;
@@ -35,4 +33,5 @@ public class CustomerEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 }

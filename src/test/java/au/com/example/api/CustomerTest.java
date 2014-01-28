@@ -1,8 +1,13 @@
-package au.com.example.api.customer;
+package au.com.example.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
+import javax.inject.Singleton;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.hk2.api.Factory;
@@ -15,8 +20,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import au.com.example.service.customer.CustomerService;
-import au.com.example.service.customer.data.CustomerEntity;
+import au.com.example.api.data.Customer;
+import au.com.example.entity.CustomerEntity;
+import au.com.example.service.CustomerService;
 
 public class CustomerTest extends JerseyTest {
 
@@ -45,20 +51,41 @@ public class CustomerTest extends JerseyTest {
 	}
 
 	/**
-	 * Invoke the retrieve customer endpoint and check the http response is 200.
+	 * Invoke the retrieve customer and check the http response is 200.
 	 */
 	@Test
 	public void testCustomerRetrieveResponse() {
 		
 		long id = 2;
 		
-		Mockito.when(serviceMock.getCustomer(Mockito.anyLong())).thenReturn(getMockCustomer(id));
+		when(serviceMock.retrieve(Mockito.anyLong())).thenReturn(getMockCustomerEntity(id));
 
-		Response response = target("customer/retrieve").queryParam("id", id).request().get();
+		Response response = target("customer/retrieve/" + id).request().get();
 
+		Customer customer = response.readEntity(Customer.class);
+		
 		assertEquals(200, response.getStatus());
+		assertEquals("2", customer.getId().toString());
+		assertEquals("Test", customer.getFirstName());
+		assertEquals("Customer", customer.getLastName());
 	}
 	
+	/**
+	 * Invoke the save customer and check the http response is 200.
+	 */
+	@Test
+	public void testCustomerSaveResponse() {
+		
+	    Entity<Customer> customerEntity = Entity.entity(getMockCustomer(), MediaType.APPLICATION_JSON_TYPE);
+	    
+		doNothing().when(serviceMock).save(Mockito.any(CustomerEntity.class));
+
+		Response response = target("customer/save").request().post(customerEntity);
+
+		assertEquals(200, response.getStatus());
+		assertEquals("customer has been successfully saved", response.readEntity(String.class));
+	}
+
 	// ======= Mocking ==========
 	
 	/**
@@ -66,10 +93,24 @@ public class CustomerTest extends JerseyTest {
 	 * 
 	 * @param id the id of the customer
 	 * 
+	 * @return the customer entity object
+	 */
+	private CustomerEntity getMockCustomerEntity(Long id) {
+		return new CustomerEntity(id, "Test", "Customer");
+	}
+	
+	/**
+	 * Mock object that will be returned
+	 * 
 	 * @return the customer object
 	 */
-	private CustomerEntity getMockCustomer(Long id) {
-		return new CustomerEntity(id, "Test", "Customer");
+	private Customer getMockCustomer() {
+		Customer customer = new Customer();
+		customer.setId(1L);
+		customer.setFirstName("Robert");
+		customer.setLastName("Leggett");
+		
+		return customer;
 	}
 
 	/**
@@ -84,7 +125,7 @@ public class CustomerTest extends JerseyTest {
 		
 		@Override
 		protected void configure() {
-			bindFactory(this).to(CustomerService.class);
+			bindFactory(this).to(CustomerService.class).in(Singleton.class);
 		}
 
 		public CustomerService provide() {
