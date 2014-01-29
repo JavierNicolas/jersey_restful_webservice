@@ -1,10 +1,10 @@
 package au.com.example.service;
 
-import au.com.example.entity.CustomerEntity;
+import au.com.example.api.data.Customer;
 
 public interface CustomerService {
 
-	public CustomerEntity retrieve(Long id);
+	public Customer retrieve(Long id);
 	
-	public void save(CustomerEntity customer);
+	public void save(Customer customer);
 }

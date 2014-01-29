@@ -1,53 +1,49 @@
 package au.com.example.service;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
+import au.com.example.api.data.Customer;
 import au.com.example.entity.CustomerEntity;
+import au.com.example.persistence.CustomerDao;
 
 @Singleton
 public class CustomerServiceImpl implements CustomerService {
 
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("persist-unit");
+	@Inject
+	private CustomerDao customerDao;
+	
+	public Customer retrieve(Long id) {
+		return entityToCustomer(customerDao.retrieve(id));
+	}
 
-	public CustomerEntity retrieve(Long id) {
+	public void save(Customer customer) {
+		customerDao.save(customerToEntity(customer));
+	}
 
-		EntityManager em = emf.createEntityManager();
+	// =========== Helpers ================
 
-		CustomerEntity customer = null;
+	private Customer entityToCustomer(CustomerEntity entity) {
+		Customer customer = new Customer();
 
-		try {
-			customer = em.find(CustomerEntity.class, id);
-		} finally {
-			em.close();
+		if (entity != null) {
+			customer.setId(entity.getId());
+			customer.setFirstName(entity.getFirstName());
+			customer.setLastName(entity.getLastName());
 		}
 
 		return customer;
 	}
 
-	public void save(CustomerEntity customer) {
+	private CustomerEntity customerToEntity(Customer customer) {
+		CustomerEntity entity = new CustomerEntity();
 
-		EntityManager em = emf.createEntityManager();
-		
-		EntityTransaction transaction = em.getTransaction();
+		if (customer != null) {
+			entity.setId(customer.getId());
+			entity.setFirstName(customer.getFirstName());
+			entity.setLastName(customer.getLastName());
+		}
 
-		try {
-			transaction.begin();
-			
-			em.persist(customer);
-			
-			transaction.commit();
-		}
-		catch(Exception e) {
-			System.out.println("Error Saving Customer: " + e.getMessage());
-			
-			transaction.rollback();
-		}
-		finally {
-			em.close();
-		}
+		return entity;
 	}
 }

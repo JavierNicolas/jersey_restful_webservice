@@ -21,7 +21,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import au.com.example.api.data.Customer;
-import au.com.example.entity.CustomerEntity;
 import au.com.example.service.CustomerService;
 
 public class CustomerResourceTest extends JerseyTest {
@@ -56,18 +55,16 @@ public class CustomerResourceTest extends JerseyTest {
 	@Test
 	public void testCustomerRetrieveResponse() {
 		
-		long id = 2;
-		
-		when(serviceMock.retrieve(Mockito.anyLong())).thenReturn(getMockCustomerEntity(id));
+		when(serviceMock.retrieve(Mockito.anyLong())).thenReturn(getMockCustomer());
 
-		Response response = target("customer/retrieve/" + id).request().get();
+		Response response = target("customer/retrieve/1").request().get();
 
 		Customer customer = response.readEntity(Customer.class);
 		
 		assertEquals(200, response.getStatus());
-		assertEquals("2", customer.getId().toString());
-		assertEquals("Test", customer.getFirstName());
-		assertEquals("Customer", customer.getLastName());
+		assertEquals("1", customer.getId().toString());
+		assertEquals("Robert", customer.getFirstName());
+		assertEquals("Leggett", customer.getLastName());
 	}
 	
 	/**
@@ -76,28 +73,17 @@ public class CustomerResourceTest extends JerseyTest {
 	@Test
 	public void testCustomerSaveResponse() {
 		
-	    Entity<Customer> customerEntity = Entity.entity(getMockCustomer(), MediaType.APPLICATION_JSON_TYPE);
+	    Entity<Customer> customer= Entity.entity(getMockCustomer(), MediaType.APPLICATION_JSON_TYPE);
 	    
-		doNothing().when(serviceMock).save(Mockito.any(CustomerEntity.class));
+		doNothing().when(serviceMock).save(Mockito.any(Customer.class));
 
-		Response response = target("customer/save").request().post(customerEntity);
+		Response response = target("customer/save").request().post(customer);
 
 		assertEquals(200, response.getStatus());
 		assertEquals("customer has been successfully saved", response.readEntity(String.class));
 	}
 
 	// ======= Mocking ==========
-	
-	/**
-	 * Mock object that will be returned.
-	 * 
-	 * @param id the id of the customer
-	 * 
-	 * @return the customer entity object
-	 */
-	private CustomerEntity getMockCustomerEntity(Long id) {
-		return new CustomerEntity(id, "Test", "Customer");
-	}
 	
 	/**
 	 * Mock object that will be returned

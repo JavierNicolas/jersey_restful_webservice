@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import au.com.example.api.data.Customer;
-import au.com.example.entity.CustomerEntity;
 import au.com.example.service.CustomerService;
 
 @Path(value = "customer")
@@ -29,42 +28,15 @@ public class CustomerResource {
 	@Path(value = "retrieve/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Customer getCustomer(@PathParam("id") Long id) {
-		return entityToCustomer(customerService.retrieve(id));
+		return customerService.retrieve(id);
 	}
 	
 	@POST
 	@Path(value = "save")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveCustomer(Customer customer) {
-		customerService.save(customerToEntity(customer));
+		customerService.save(customer);
 		
 		return Response.status(Status.OK).entity("customer has been successfully saved").type(MediaType.APPLICATION_JSON).build();
 	}
-
-	// =========== Helpers ================
-
-	private Customer entityToCustomer(CustomerEntity entity) {
-		Customer customer = new Customer();
-
-		if (entity != null) {
-			customer.setId(entity.getId());
-			customer.setFirstName(entity.getFirstName());
-			customer.setLastName(entity.getLastName());
-		}
-		
-		return customer;
-	}
-	
-	private CustomerEntity customerToEntity(Customer customer) {
-		CustomerEntity entity = new CustomerEntity();
-
-		if (customer != null) {
-			entity.setId(customer.getId());
-			entity.setFirstName(customer.getFirstName());
-			entity.setLastName(customer.getLastName());
-		}
-		
-		return entity;
-	}
-
 }
