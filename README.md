@@ -14,4 +14,38 @@ EclipseLink implements the Java JPA 2.0 API which is used for transaction manage
 Derby is used to store data also allowing you to run an embedded database, in memory database etc.
 
 Jersey Test Framework 2.5.1 will execute unit tests and allow for the http response to be tested, this has been combined with Mockito to mock out the services however if you wish based out your configuration you can also perform end to end tests.
- 
+
+-------------------------
+Test
+-------------------------
+
+Ensure the context root is set to jrws and post of web server is 8080 (for example purposes)
+
+
+Once you have started up the application
+
+http://localhost:8080/jrws
+- Will navigate you to the index.jsp to ensure the application is running.
+
+----------------------
+Example Restful Calls
+----------------------
+
+Ensure you set the content-type in your request to application/json
+
+SAVE:
+
+url = http://localhost:8080/jrws/rest/customer/save
+method = POST
+data = {"id":"1", "firstName":"Robert", "lastName":"Leggett"}
+
+RETRIEVE:
+
+url = http://localhost:8080/jrws/rest/customer/retrieve/1
+method = GET
+
+DELETE:
+
+url = http://localhost:8080/jrws/rest/customer/delete
+method = POST
+data = 1
