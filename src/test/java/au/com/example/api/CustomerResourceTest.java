@@ -66,6 +66,22 @@ public class CustomerResourceTest extends JerseyTest {
 		assertEquals("Robert", customer.getFirstName());
 		assertEquals("Leggett", customer.getLastName());
 	}
+
+    /**
+     * Invoke the delete customer and check the http response is 200.
+     */
+    @Test
+    public void testCustomerDeleteResponse() {
+
+        Entity<Long> customerId = Entity.entity(getMockCustomer().getId(), MediaType.APPLICATION_JSON_TYPE);
+
+        doNothing().when(serviceMock).save(Mockito.any(Customer.class));
+
+        Response response = target("customer/delete").request().post(customerId);
+
+        assertEquals(200, response.getStatus());
+        assertEquals("customer has been successfully deleted", response.readEntity(String.class));
+    }
 	
 	/**
 	 * Invoke the save customer and check the http response is 200.
@@ -73,7 +89,7 @@ public class CustomerResourceTest extends JerseyTest {
 	@Test
 	public void testCustomerSaveResponse() {
 		
-	    Entity<Customer> customer= Entity.entity(getMockCustomer(), MediaType.APPLICATION_JSON_TYPE);
+	    Entity<Customer> customer = Entity.entity(getMockCustomer(), MediaType.APPLICATION_JSON_TYPE);
 	    
 		doNothing().when(serviceMock).save(Mockito.any(Customer.class));
 

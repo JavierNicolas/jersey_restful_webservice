@@ -17,6 +17,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return entityToCustomer(customerDao.retrieve(id));
 	}
 
+    public void delete(Long id) {
+        customerDao.delete(id);
+    }
+
 	public void save(Customer customer) {
 		customerDao.save(customerToEntity(customer));
 	}

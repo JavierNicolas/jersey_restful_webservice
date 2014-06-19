@@ -27,6 +27,33 @@ public class CustomerDaoImpl implements CustomerDao {
 		return entity;
 	}
 
+    public void delete(Long id) {
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+
+            CustomerEntity entity = em.find(CustomerEntity.class, id);
+
+            if(entity == null) {
+                System.out.println("Error Deleting Customer: Customer not found");
+            }
+            else {
+                em.remove(entity);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            System.out.println("Error Deleting Customer: " + e.getMessage());
+
+            transaction.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
 	public void save(CustomerEntity customer) {
 		EntityManager em = emf.createEntityManager();
 
@@ -35,7 +62,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		try {
 			transaction.begin();
 
-			em.persist(customer);
+            em.merge(customer);
 
 			transaction.commit();
 		} catch (Exception e) {

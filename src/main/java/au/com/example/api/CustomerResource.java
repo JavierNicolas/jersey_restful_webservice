@@ -30,6 +30,15 @@ public class CustomerResource {
 	public Customer getCustomer(@PathParam("id") Long id) {
 		return customerService.retrieve(id);
 	}
+
+    @POST
+    @Path(value = "delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteCustomer(Long id) {
+        customerService.delete(id);
+
+        return Response.status(Status.OK).entity("customer has been successfully deleted").type(MediaType.APPLICATION_JSON).build();
+    }
 	
 	@POST
 	@Path(value = "save")

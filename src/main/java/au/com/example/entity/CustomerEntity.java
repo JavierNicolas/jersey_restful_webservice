@@ -2,10 +2,7 @@ package au.com.example.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Customer")
@@ -14,7 +11,8 @@ public class CustomerEntity implements Serializable {
 	private static final long serialVersionUID = 7711505597348200997L;
 
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@Column(name = "first_name", nullable = false)
