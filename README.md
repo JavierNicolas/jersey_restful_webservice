@@ -1,6 +1,8 @@
 jersey_restful_webservice
 =========================
 
+[![Build Status](https://travis-ci.org/Robert-Leggett/jersey_restful_webservice.svg?branch=master)](https://travis-ci.org/Robert-Leggett/jersey_restful_webservice)
+
 Jersey 2.5.1 RESTful Web Service with JPA 2.1 implemented using EclipseLink 2.5.2 and using Derby 10.10.1.1 In Memory Database
 
 This is an example of an RESTful WebService using Jersey for the JAX-RS implementation, Genson for the JSON to Java / Java to JSON data binding, EclipseLink for the JPA implementation and Derby for the In Memory Database.
